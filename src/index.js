@@ -4,7 +4,7 @@ const userRouter = require("./routes/user");
 const inflowRouter = require("./routes/inflow");
 const cors = require('cors')
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 const multer = require("multer");
 const upload = new multer({
