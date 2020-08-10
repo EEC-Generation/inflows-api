@@ -44,14 +44,6 @@ router.get("/inflows/:id", auth, async (req, res) => {
 
 router.patch("/inflows/:id", auth, async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["description", "completed"];
-  const isValidOperation = updates.every((update) =>
-    allowedUpdates.includes(update)
-  );
-
-  if (!isValidOperation) {
-    return res.status(400).send({ error: "Invalid Updates!" });
-  }
   try {
     const inflow = await Inflow.findOne({
       Day_of_Input: req.params.id
