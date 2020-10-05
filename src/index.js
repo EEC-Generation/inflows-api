@@ -15,7 +15,7 @@ app.post("/upload", upload.single('upload'), (req, res) => {
   res.send();
 });
 app.use(cors({
-  origin: ['http://192.168.80.51:3001', 'https://sec-generation.netlify.app', 'http://localhost:3001']
+  origin: ['http://localhost:3000', 'https://sec-generation.netlify.app', 'http://localhost:3001']
 }));
 app.use(express.json());
 app.use(userRouter);

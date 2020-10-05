@@ -29,6 +29,24 @@ router.get("/inflows", auth, async (req, res) => {
   }
 });
 
+router.get("/inflows/byYear/:year", auth, async (req, res) => {
+ 
+  try {
+    const inflows = await Inflow.find({
+      Day_of_Input: {
+        $gte: new Date(`${req.params.year}-01-01`), 
+        $lte: new Date(`${req.params.year}-12-31`)
+      } 
+    }).sort({Day_of_Input: 1});
+    if (!inflows) {
+      return res.status(404).send();
+    }
+    res.send(inflows);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 router.get("/inflows/:id", auth, async (req, res) => {
   const _id = req.params.id;
   try {
@@ -72,5 +90,22 @@ router.delete("/inflows/:id", auth, async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+router.delete("/inflows/deleteByYear/:year", auth, async (req, res) => {
+  try {
+    const inflow = await Inflow.deleteMany({
+      Day_of_Input: {
+        $gte: new Date(`${req.params.year}-01-01`), 
+        $lte: new Date(`${req.params.year}-12-31`)
+      } 
+    });
+    if (!inflow) {
+      return res.status(404).send();
+    }
+    res.send(inflow);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+})
 
 module.exports = router;

@@ -6,6 +6,8 @@ const inflowSchema = new mongoose.Schema(
       type: Date,
       required: true,
       trim: true,
+      unique: true,
+      index: true
     },
     Ferreira: {
       type: String,
@@ -38,6 +40,7 @@ const inflowSchema = new mongoose.Schema(
   }
 );
 
+inflowSchema.index({ Day_of_Input: 1 });
 const Inflow = mongoose.model("Inflow", inflowSchema);
 
 module.exports = Inflow;
