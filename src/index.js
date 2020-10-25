@@ -3,6 +3,7 @@ require("./db/mongoose");
 const userRouter = require("./routes/user");
 const inflowRouter = require("./routes/inflow");
 const drainageModelRouter = require("./routes/drainage-model");
+const powerStationRouter = require("./routes/power-stations");
 const cors = require('cors')
 const app = express();
 const port = process.env.PORT;
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(userRouter);
 app.use(inflowRouter);
 app.use(drainageModelRouter);
+app.use(powerStationRouter);
 
 app.listen(port, () => {
   console.log(`server running at port ${port}`);

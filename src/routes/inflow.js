@@ -4,15 +4,29 @@ const Inflow = require("../models/inflow");
 const auth = require("../middleware/auth");
 
 router.post("/inflows", auth, async (req, res) => {
+  // if inflow already exits, just patch it.
+  const currentInflow = await Inflow.findOne({ Day_of_Input: req.body.Day_of_Input});
+  if (currentInflow) {
+    const updates = Object.keys(req.body);
+    try {
+      updates.forEach((update) => (currentInflow[update] = req.body[update]));
+      await currentInflow.save();
+      return res.send(currentInflow);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
+
+  // new inflow
   const inflow = new Inflow({
     ...req.body
   });
+  
   try {
     await inflow.save();
     res.status(201).send(inflow);
   } catch (error) {
     res.status(400).send(error);
-
   }
 });
 
