@@ -4,6 +4,7 @@ const userRouter = require("./routes/user");
 const inflowRouter = require("./routes/inflow");
 const drainageModelRouter = require("./routes/drainage-model");
 const powerStationRouter = require("./routes/power-stations");
+const generationScheduleRouter = require("./routes/genaration-schedules");
 const cors = require('cors')
 const app = express();
 const port = process.env.PORT;
@@ -23,6 +24,7 @@ app.use(userRouter);
 app.use(inflowRouter);
 app.use(drainageModelRouter);
 app.use(powerStationRouter);
+app.use(generationScheduleRouter);
 
 app.listen(port, () => {
   console.log(`server running at port ${port}`);
