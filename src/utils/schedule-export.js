@@ -1,30 +1,19 @@
 const path = require("path");
 const ExcelJS = require("exceljs");
 
-const scheduleExport = async (date, schedule, cb) => {
-  readTemplateFile((error, workbook) => {
-    if (error) {
-      cb(error);
-    }
-    generateSchedule(workbook, schedule, date);
-  });
+const scheduleExport = async (date, schedule) => {
+  let workbook = await readTemplateFile(date);
+  workbook = generateSchedule(workbook, schedule, date);
+  await writeTampletFile(workbook);
 };
 
-const readTemplateFile = async (cb) => {
+const readTemplateFile = async (date) => {
+  const day = new Date(date).getDay();
+  const fileName = day === 6 || day === 0 ? "sat" : "weekday";
   const workbook = new ExcelJS.Workbook();
-  await workbook.xlsx
-    .readFile(
-      path.join(
-        __dirname,
-        "../assets/GenerationTemplates/Generation_Weekday_Schedule.xlsx"
-      )
-    )
-    .then(() => {
-      cb(undefined, workbook);
-    })
-    .catch((error) => {
-      cb(error);
-    });
+  return await workbook.xlsx.readFile(
+    path.join(__dirname, `../assets/GenerationTemplates/${fileName}.xlsx`)
+  );
 };
 
 const generateSchedule = (workbook, schedule, date) => {
@@ -35,6 +24,7 @@ const generateSchedule = (workbook, schedule, date) => {
       }
     });
   });
+  return workbook;
 };
 
 const fillWorkSheet = (powerStation, ws, wb, date) => {
@@ -44,11 +34,10 @@ const fillWorkSheet = (powerStation, ws, wb, date) => {
     ws.getCell(`E${23 + index}`).value = hour.Period;
     ws.getCell(`F${23 + index}`).value = +hour.Power;
   });
-  writeTampletFile(wb);
 };
 
 const writeTampletFile = async (wb) => {
-  await wb.xlsx.writeFile(
+  return await wb.xlsx.writeFile(
     path.join(__dirname, "../assets/downloads/schedule.xlsx")
   );
 };

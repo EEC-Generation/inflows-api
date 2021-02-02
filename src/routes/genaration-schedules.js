@@ -108,11 +108,7 @@ router.post("/download-schedules/:date", auth, async (req, res) => {
       return res.status(404).send();
     }
 
-    scheduleExport(req.body.date, schedule, (error, data) => {
-      if (error) {
-        throw new Error(error);
-      }
-    });
+    await scheduleExport(req.body.date, schedule);
     const file = path.join(__dirname, "../assets/downloads/schedule.xlsx");
     res.status(200).download(file);
   } catch (error) {
