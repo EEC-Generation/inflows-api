@@ -8,6 +8,17 @@ router.post("/schedules", auth, async (req, res) => {
   const generationSchedule = new GenerationSchedules({
     ...req.body,
   });
+  const currentSchedule = await GenerationSchedules.findOne({Date: req.body.Date})
+  if (currentSchedule) {
+    const updates = Object.keys(req.body);
+    try {
+      updates.forEach((update) => (currentSchedule[update] = req.body[update]));
+      await currentSchedule.save();
+      return res.send(currentSchedule);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
   try {
     await generationSchedule.save();
     res.status(201).send(generationSchedule);
