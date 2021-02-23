@@ -9,10 +9,6 @@ const drainagePointSchema = new mongoose.Schema (
     y: {
       type: String,
       trim: true
-    },
-    month: {
-      type: String,
-      trim: true
     }
   }
 )
