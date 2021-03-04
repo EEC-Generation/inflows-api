@@ -33,6 +33,16 @@ const inflowSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+    },
+    Regulating_Weir: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    Irrigation_Flow: {
+      type: String,
+      required: true,
+      trim: true,
     }
   },
   {

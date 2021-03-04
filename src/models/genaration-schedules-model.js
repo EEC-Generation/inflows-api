@@ -49,6 +49,18 @@ const generationPeriodSchema = new mongoose.Schema (
     maguduzaSumOffPeak: {
       type: String,
       trim: true
+    },
+    magugaSumPeak: {
+      type: String,
+      trim: true
+    },
+    magugaSumStnd: {
+      type: String,
+      trim: true
+    },
+    magugaSumOffPeak: {
+      type: String,
+      trim: true
     }
   }
 )
