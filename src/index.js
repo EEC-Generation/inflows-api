@@ -4,6 +4,7 @@ const userRouter = require("./routes/user");
 const inflowRouter = require("./routes/inflow");
 const drainageModelRouter = require("./routes/drainage-model");
 const powerStationRouter = require("./routes/power-stations");
+const settingsRouter = require("./routes/settings");
 const generationScheduleRouter = require("./routes/genaration-schedules");
 const cors = require('cors')
 const app = express();
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(userRouter);
 app.use(inflowRouter);
 app.use(drainageModelRouter);
+app.use(settingsRouter);
 app.use(powerStationRouter);
 app.use(generationScheduleRouter);
 
