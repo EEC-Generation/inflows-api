@@ -30,11 +30,11 @@ router.post("/settings", auth, async (req, res) => {
 
 router.get("/settings", auth, async (req, res) => {
   try {
-    const settings = await SettingsModel.find().sort({ Day_of_Input: 1 });
+    const settings = await SettingsModel.find();
     if (!settings) {
       return res.status(404).send();
     }
-    res.send(settings);
+    res.send(settings[0]);
   } catch (error) {
     res.status(500).send(error);
   }
