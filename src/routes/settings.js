@@ -53,12 +53,10 @@ router.get("/settings/:name", auth, async (req, res) => {
   }
 });
 
-router.patch("/settings/:name", auth, async (req, res) => {
-  const updates = Object.keys(req.body);
+router.patch("/settings/edit", auth, async (req, res) => {
+  const updates = Object.keys(req.body)
   try {
-    const model = await SettingsModel.findOne({
-      Model_Name: req.params.name,
-    });
+    const model = await SettingsModel.findOne({});
     if (!model) {
       return res.status(404).send();
     }
