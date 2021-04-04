@@ -20,7 +20,9 @@ app.post("/upload", upload.single('upload'), (req, res) => {
 app.use(cors({
   origin: ['http://localhost:3000', 'https://sec-generation.netlify.app', 'http://localhost:3001', 'http://localhost:3002', 'https://sec-generation-uat.netlify.app']
 }));
-app.use(express.json());
+
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 app.use(userRouter);
 app.use(inflowRouter);
 app.use(drainageModelRouter);

@@ -5,21 +5,23 @@ const auth = require("../middleware/auth");
 
 router.post("/models", auth, async (req, res) => {
   const drainageModel = new DrainageModel({
-    ...req.body
+    ...req.body,
   });
+  const model = await DrainageModel.findOne({
+    Model_Name: req.body.Model_Name,
+  });
+  if (model) return res.status(400).send({ error: "Model Name Already Exits" });
   try {
     await drainageModel.save();
     res.status(201).send(drainageModel);
   } catch (error) {
     res.status(400).send(error);
-
   }
 });
 
 router.get("/models", auth, async (req, res) => {
- 
   try {
-    const models = await DrainageModel.find().sort({Day_of_Input: 1});
+    const models = await DrainageModel.find().sort({ Day_of_Input: 1 });
     if (!models) {
       return res.status(404).send();
     }
@@ -32,7 +34,7 @@ router.get("/models", auth, async (req, res) => {
 router.get("/models/:name", auth, async (req, res) => {
   const _name = req.params.name;
   try {
-    const model = await DrainageModel.findOne({ Model_Name: _name});
+    const model = await DrainageModel.findOne({ Model_Name: _name });
     if (!model) {
       return res.status(404).send();
     }
@@ -46,7 +48,7 @@ router.patch("/models/:name", auth, async (req, res) => {
   const updates = Object.keys(req.body);
   try {
     const model = await DrainageModel.findOne({
-      Model_Name: req.params.name
+      Model_Name: req.params.name,
     });
     if (!model) {
       return res.status(404).send();
@@ -62,7 +64,7 @@ router.patch("/models/:name", auth, async (req, res) => {
 router.delete("/models/:name", auth, async (req, res) => {
   try {
     const model = await DrainageModel.findOneAndDelete({
-      Model_Name: req.params.name
+      Model_Name: req.params.name,
     });
     if (!model) {
       return res.status(404).send();
