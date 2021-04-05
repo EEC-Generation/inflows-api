@@ -7,7 +7,7 @@ const upload = new multer({
   dest: "avatars",
 });
 router.post("/users", async (req, res) => {
-  const allowedEmails = ["phiwokuhlegondwe@gmail.com"];
+  const allowedEmails = ["phiwokuhlegondwe@gmail.com", "eric@gmail.com", "mbongiseni.dlamini@sec.co.sz"];
   const { email } = req.body;
   if (allowedEmails.includes(email)) {
     const user = new User(req.body);

@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    admin: {
+      type: Boolean,
+      default: false
+    },
     age: {
       type: Number,
       default: 0,
