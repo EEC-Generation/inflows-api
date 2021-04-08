@@ -5,7 +5,9 @@ const auth = require("../middleware/auth");
 
 router.post("/inflows", auth, async (req, res) => {
   // if inflow already exits, just patch it.
-  const currentInflow = await Inflow.findOne({ Day_of_Input: req.body.Day_of_Input});
+  const currentInflow = await Inflow.findOne({
+    Day_of_Input: req.body.Day_of_Input,
+  });
   if (currentInflow) {
     const updates = Object.keys(req.body);
     try {
@@ -19,9 +21,9 @@ router.post("/inflows", auth, async (req, res) => {
 
   // new inflow
   const inflow = new Inflow({
-    ...req.body
+    ...req.body,
   });
-  
+
   try {
     await inflow.save();
     res.status(201).send(inflow);
@@ -31,9 +33,8 @@ router.post("/inflows", auth, async (req, res) => {
 });
 
 router.get("/inflows", auth, async (req, res) => {
- 
   try {
-    const inflows = await Inflow.find().sort({Day_of_Input: 1});
+    const inflows = await Inflow.find().sort({ Day_of_Input: 1 });
     if (!inflows) {
       return res.status(404).send();
     }
@@ -44,14 +45,13 @@ router.get("/inflows", auth, async (req, res) => {
 });
 
 router.get("/inflows/byYear/:year", auth, async (req, res) => {
- 
   try {
     const inflows = await Inflow.find({
       Day_of_Input: {
-        $gte: new Date(`${req.params.year}-01-01`), 
-        $lte: new Date(`${req.params.year}-12-31`)
-      } 
-    }).sort({Day_of_Input: 1});
+        $gte: new Date(`${req.params.year}-01-01`),
+        $lte: new Date(`${req.params.year}-12-31`),
+      },
+    }).sort({ Day_of_Input: 1 });
     if (!inflows) {
       return res.status(404).send();
     }
@@ -62,9 +62,11 @@ router.get("/inflows/byYear/:year", auth, async (req, res) => {
 });
 
 router.get("/inflows/:id", auth, async (req, res) => {
-  const _id = req.params.id;
+  let _id = req.params.id;
   try {
-    const inflow = await Inflow.findOne({ Day_of_Input: _id});
+    const inflow = await Inflow.findOne({
+      Day_of_Input: { $gte: new Date(_id) },
+    });
     if (!inflow) {
       return res.status(404).send();
     }
@@ -78,7 +80,7 @@ router.patch("/inflows/:id", auth, async (req, res) => {
   const updates = Object.keys(req.body);
   try {
     const inflow = await Inflow.findOne({
-      Day_of_Input: req.params.id
+      Day_of_Input: req.params.id,
     });
     if (!inflow) {
       return res.status(404).send();
@@ -94,7 +96,7 @@ router.patch("/inflows/:id", auth, async (req, res) => {
 router.delete("/inflows/:id", auth, async (req, res) => {
   try {
     const inflow = await Inflow.findOneAndDelete({
-      Day_of_Input: req.params.id
+      Day_of_Input: req.params.id,
     });
     if (!inflow) {
       return res.status(404).send();
@@ -109,9 +111,9 @@ router.delete("/inflows/deleteByYear/:year", auth, async (req, res) => {
   try {
     const inflow = await Inflow.deleteMany({
       Day_of_Input: {
-        $gte: new Date(`${req.params.year}-01-01`), 
-        $lte: new Date(`${req.params.year}-12-31`)
-      } 
+        $gte: new Date(`${req.params.year}-01-01`),
+        $lte: new Date(`${req.params.year}-12-31`),
+      },
     });
     if (!inflow) {
       return res.status(404).send();
@@ -120,6 +122,6 @@ router.delete("/inflows/deleteByYear/:year", auth, async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
-})
+});
 
 module.exports = router;
