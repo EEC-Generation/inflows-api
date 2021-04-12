@@ -6,7 +6,7 @@ const auth = require("../middleware/auth");
 router.post("/inflows", auth, async (req, res) => {
   // if inflow already exits, just patch it.
   const currentInflow = await Inflow.findOne({
-    Day_of_Input: req.body.Day_of_Input,
+    Day_of_Input: { $gte: new Date(req.body.Day_of_Input) },
   });
   if (currentInflow) {
     const updates = Object.keys(req.body);
