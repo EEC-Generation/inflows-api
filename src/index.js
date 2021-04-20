@@ -25,7 +25,7 @@ app.use(
       "http://localhost:3001",
       "http://localhost:3002",
       "https://sec-generation-uat.netlify.app",
-      "https://test--sec-generation.netlify.app/",
+      "https://test--sec-generation.netlify.app",
     ],
   })
 );
